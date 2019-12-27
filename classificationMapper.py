@@ -1,4 +1,7 @@
 import os, os.path, string,sys, re
+# J. Philip Schmidt Dec 23, 2019
+# Classification conversion utility based upon a portion marking to convert to XMLattributes
+# Uses  a map of Regex with the associated substr ranges in a map for dynamic processing from a csv text file.
 
 
 #classifications: U C S
