@@ -1,8 +1,8 @@
-CAN S//OC//NF/LES
-CAN S//OC//NF//LES
-//GBR S//OC//NF/LES
-//GBR S//OC//NF//LES
-S//LES
-//S//OC//NF
-//CAN S//OC//NF
+CAN S//OC//NF/LES,11111,/Record/Body/field1
+CAN S//OC//NF//LES,22,/Record/Body/field1
+//GBR S//OC//NF/LES,33,/Record/Body/field1
+//GBR S//OC//NF//LES,33,/Record/Body/field2
+S//LES,44,/Record/Body/field1
+//S//OC//NF,44,/Record/Body/field2
+//CAN S//OC//NF,55,/Record/Body/field1
 
