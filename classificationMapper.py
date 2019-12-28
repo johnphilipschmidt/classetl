@@ -7,9 +7,9 @@ import os, os.path, string,sys, re
 #classifications: U C S
 #'ism:disseminationControls: RS, OC OC-USGOV, IMC, NF, PR,REL,RELIDO, DSEN, FISA
 #NonIcMarkings XD, ND, LES, LES-NF, SSI
-#TypeOfExemptedSource XD, ND, LES, LES-NF, SSI
-#FGIsourceOpen US ONLY, JOINT, Mixed US/FGI Protected, FGI Protected, Mixed US/FGI Opn, FGI Open
-#ism:classification="S" ism:ownerProducer="DNK", ism:FGIsourceOpen="DNK" ism:nonICMarkings="LES" ism:typeOfExmptedSource="FGI Open"
+#ism:TypeOfExemptedSource XD, ND, LES, LES-NF, SSI
+#ism:FGIsourceOpen US ONLY, JOINT, Mixed US/FGI Protected, FGI Protected, Mixed US/FGI Opn, FGI Open
+#ism:classification="S" ism:ownerProducer="DNK", ism:ism:FGIsourceOpen="DNK" ism:nonICMarkings="LES" ism:typeOfExmptedSource="FGI Open"
 #ism:disseminationControls="FISA" ism:nonICMarkings="LES"
 
 #match the pattern and return the parsing map
@@ -43,13 +43,13 @@ def main():
     #The Masterm map
     # mapkey, regex pattern to search for dynamic eval execution, attribute map of substring parse range
     patternMap={
-        'pattern0':['re.search("^[A-Z][A-Z][A-Z] [UCS]//[A-Z][A-Z]//[A-Z][A-Z]/LES",source)',{'ism:classifications':[4,5],'ism:disseminationControls':[7,9]},'CAN S//OC '], #CAN S//OC//NF//LES
-        'pattern1':['re.search("^[A-Z][A-Z][A-Z] [UCS]//[A-Z][A-Z]//[A-Z][A-Z]/FISA",source)',{'ism:classifications':[4,5],'ism:disseminationControls':[8,9]},'1'], #CAN S//OC//NF//FISA
-        'pattern2':['re.search("^//[A-Z][A-Z][A-Z] [UCS]//[A-Z][A-Z]",source)',{'ism:classifications':[6,7],'ism:disseminationControls':[9,11]},'2'], #CAN S//OC
-        'pattern3':['re.search("^//[A-Z][A-Z][A-Z] [UCS]/[A-Z][A-Z]",source)',{'ism:classifications':[6,7],'ism:disseminationControls':[7,9]},'3'],#CAN S/OC
-        'pattern4':['re.search("^//[A-Z][A-Z][A-Z] [UCS]//[A-Z][A-Z]//[A-Z][A-Z]",source)',{'ism:classifications':[6,7],'ism:disseminationControls':[4,5]},'4'],#CAN S//OC//NF
-        'pattern5':['re.search("^//[A-Z][A-Z][A-Z] [UCS]//[A-Z][A-Z]//[A-Z][A-Z]//LES",source)',{'ism:classifications':[6,7],'ism:disseminationControls':[4,5]},'5'], #CAN S//OC//NF//LES
-        'pattern6':['re.search("^//[A-Z][A-Z][A-Z] [UCS]//[A-Z][A-Z]//[A-Z][A-Z]/LES",source)',{'ism:classifications':[6,7],'ism:disseminationControls':[4,5]},'6']#CAN S//OC//NF/LES
+        'pattern0':['re.search("^[A-Z][A-Z][A-Z] [UCS]//[A-Z][A-Z]//[A-Z][A-Z]/LES$",source)',{'ism:classifications':[4,5],'ism:disseminationControls':[7,9],'ism:FGIsourceOpen':[14,17]},'CAN S//OC '], #CAN S//OC//NF//LES
+        'pattern1':['re.search("^[A-Z][A-Z][A-Z] [UCS]//[A-Z][A-Z]//[A-Z][A-Z]/FISA$",source)',{'ism:classifications':[4,5],'ism:disseminationControls':[8,9],'ism:TypeOfExemptedSource':[10,12],'ism:FGIsourceOpen':[16,19]},'1'], #CAN S//OC//NF//FISA
+        'pattern2':['re.search("^//[A-Z][A-Z][A-Z] [UCS]//[A-Z][A-Z]$",source)',{'ism:classifications':[6,7],'ism:disseminationControls':[9,11],'ism:TypeOfExemptedSource':[10,12],'ism:FGIsourceOpen':[16,19]},'2'], #CAN S//OC
+        'pattern3':['re.search("^//[A-Z][A-Z][A-Z] [UCS]/[A-Z][A-Z]$",source)',{'ism:classifications':[6,7],'ism:disseminationControls':[7,9],'ism:TypeOfExemptedSource':[10,12],'ism:FGIsourceOpen':[14,15]},'3'],#CAN S/OC
+        'pattern4':['re.search("^//[A-Z][A-Z][A-Z] [UCS]//[A-Z][A-Z]//[A-Z][A-Z]$",source)',{'ism:classifications':[6,7],'ism:disseminationControls':[4,5],'ism:TypeOfExemptedSource':[10,12],'ism:FGIsourceOpen':[12,13]},'4'],#CAN S//OC//NF
+        'pattern5':['re.search("^//[A-Z][A-Z][A-Z] [UCS]//[A-Z][A-Z]//[A-Z][A-Z]//LES$",source)',{'ism:classifications':[6,7],'ism:disseminationControls':[4,5],'ism:TypeOfExemptedSource':[10,12],'ism:FGIsourceOpen':[12,13]},'5'], #CAN S//OC//NF//LES
+        'pattern6':['re.search("^//[A-Z][A-Z][A-Z] [UCS]//[A-Z][A-Z]//[A-Z][A-Z]/LES$",source)',{'ism:classifications':[6,7],'ism:disseminationControls':[4,5],'ism:TypeOfExemptedSource':[10,12],'ism:FGIsourceOpen':[12,13]},'6']#CAN S//OC//NF/LES
     }
     with open("c.dat") as file:
         result={}
@@ -64,7 +64,7 @@ def main():
                 patternMatch=getPattern(lineElements[0],patternMap)
                 if ((patternMatch) != None):
                     #print ("pattern key is:"+patternMatch)
-                    result[lineElements[1]+') ('+lineElements[2]+') ='+lineElements[2]]=parsePattern(patternMap,patternMatch,lineElements[0])
+                    result[patternMatch+'-'+lineElements[0]+') ('+lineElements[2]+') ='+lineElements[2]]=parsePattern(patternMap,patternMatch,lineElements[0])
 
         for key in result:
                 print ((key.lstrip('\''),(result[key])))
